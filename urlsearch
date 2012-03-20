@@ -1,0 +1,53 @@
+#!/usr/bin/env python
+
+# Search query from command line; open browser as appropriate
+# Ben Bass
+
+import os
+import sys
+import urllib
+import webbrowser
+import socket
+
+# allow multiple symlinks, use their name as site
+site = os.path.basename(sys.argv[0])
+
+# query string
+query_path = 'search?q={terms}'
+
+# special cases, aliases etc
+if site == 'wiki':
+    site = 'wikipedia.org'
+    query_path = 'w/index.php?search={terms}'
+
+# support for local domains etc
+if '.' not in site:
+    for suffix in '', '.com', '.org', '.net', '.co.uk':
+        try:
+            if socket.getaddrinfo(site + suffix, 'http'):
+                site = site + suffix
+                break
+        except socket.gaierror:
+            pass
+
+# Following is for searching trac instances
+# '#123' should go to ticket 123
+terms = ' '.join(sys.argv[1:])
+try:
+    int(terms)
+except ValueError:
+    pass
+else:
+    # a lone number refers to a ticket. Can't use #1234,
+    # as is interpreted as a comment by bash and doesn't
+    # get here
+    terms = '#' + terms
+
+terms = urllib.quote_plus(terms)
+query = query_path.format(terms=terms)
+
+# suppress stdout from subprocess created by webbrowser.open
+# (e.g. 'Created new window in existing browser session.')
+os.dup2(os.open(os.devnull, os.O_WRONLY), 1)
+# start a browser window for the search
+webbrowser.open('http://{site}/{query}'.format(site=site, query=query))
