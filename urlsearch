@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # Search query from command line; open browser as appropriate
-# Ben Bass
+# Ben Bass 2012 @codedstructure
 
 import os
 import sys
@@ -12,15 +12,25 @@ import socket
 # allow multiple symlinks, use their name as site
 site = os.path.basename(sys.argv[0])
 
-# query string
+# Defaults
 query_path = 'search?q={terms}'
+quote_fn = urllib.quote_plus
 
 # special cases, aliases etc
 if site == 'wiki':
     site = 'wikipedia.org'
     query_path = 'w/index.php?search={terms}'
+elif site == 'pylib':
+    site = 'docs.python.org'
+    query_path = 'library/{terms}'
+elif site == 'jquery':
+    site = 'api.jquery.com'
+    query_path = '{terms}/'
+elif site == 'duckduckgo':
+    query_path = '{terms}'
+    quote_fn = urllib.quote
 
-# support for local domains etc
+# support for local domains, gTLD searching etc
 if '.' not in site:
     for suffix in '', '.com', '.org', '.net', '.co.uk':
         try:
@@ -43,7 +53,7 @@ else:
     # get here
     terms = '#' + terms
 
-terms = urllib.quote_plus(terms)
+terms = quote_fn(terms)
 query = query_path.format(terms=terms)
 
 # suppress stdout from subprocess created by webbrowser.open
