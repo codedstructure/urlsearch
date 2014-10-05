@@ -56,6 +56,9 @@ class UrlSearcher(object):
         elif self.site == 'pylib':
             self.site = 'docs.python.org'
             self.query_path = 'library/{terms}'
+        elif self.site == 'pypi':
+            self.site = 'pypi.python.org'
+            self.query_path = 'pypi?:action=search&term={terms}&submit=search'
         elif self.site == 'jquery':
             self.site = 'api.jquery.com'
             self.query_path = '{terms}/'
