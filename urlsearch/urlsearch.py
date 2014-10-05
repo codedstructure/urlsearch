@@ -3,9 +3,16 @@
 # Search query from command line; open browser as appropriate
 # Ben Bass 2012-2014 @codedstructure
 
+
+__version__ = '0.2'
+
 import os
 import sys
-import urllib
+# support Python2 and Python3
+try:
+    from urllib.parse import quote, quote_plus
+except ImportError:
+    from urllib import quote, quote_plus
 import webbrowser
 import socket
 
@@ -17,7 +24,7 @@ class UrlSearcher(object):
         self.search = search
         # Defaults
         self.query_path = 'search?q={terms}'
-        self.quote_fn = urllib.quote_plus
+        self.quote_fn = quote_plus
 
     def open(self):
         query = self.process()
@@ -55,7 +62,7 @@ class UrlSearcher(object):
         elif self.site in('duckduckgo', 'ddg'):
             self.site = 'duckduckgo'
             self.query_path = '{terms}'
-            self.quote_fn = urllib.quote
+            self.quote_fn = quote
 
         # support for local domains, gTLD searching etc
         if '.' not in self.site:
