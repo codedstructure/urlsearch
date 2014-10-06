@@ -4,7 +4,7 @@
 # Ben Bass 2012-2014 @codedstructure
 
 
-__version__ = '0.2'
+__version__ = '0.2.1'
 
 import os
 import sys
@@ -74,7 +74,7 @@ class UrlSearcher(object):
                     if socket.getaddrinfo(self.site + suffix, 'http'):
                         self.site = self.site + suffix
                         break
-                except socket.gaierror:
+                except (socket.gaierror, socket.error):
                     pass
 
         terms = self.quote_fn(self.search)
