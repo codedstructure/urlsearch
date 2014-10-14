@@ -92,7 +92,6 @@ CHANGES
 TODO
 ----
 
-Improved support for manually adding search types including simple special
-casing is planned.
+Improve documentation of the config file structure
 
 *Ben Bass 2012-2014 @codedstructure*
