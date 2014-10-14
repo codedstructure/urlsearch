@@ -21,21 +21,25 @@ for scriptname in os.listdir('scripts'):
 
 setup(
     name="urlsearch",
-    version="0.2",
+    version="0.3",
     description="perform web searches from the command line",
     long_description=open('README.rst').read(),
     author="Ben Bass",
     author_email="benbass@codedstructure.net",
     url="http://bitbucket.org/codedstructure/urlsearch",
     packages=["urlsearch"],
+    data_files=[(os.path.expanduser('~'), (".urlsearchrc", ))],
     scripts=scripts,
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Console",
         "License :: OSI Approved :: MIT License",
         "Operating System :: POSIX",
-        "Programming Language :: Python" ,
-        "Programming Language :: Python :: 2.7" ,
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.2",
+        "Programming Language :: Python :: 3.3",
+        "Programming Language :: Python :: 3.4",
     ]
 )

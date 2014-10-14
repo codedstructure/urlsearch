@@ -23,9 +23,13 @@ search engine; several are already included by default:
 
 Features:
 
-* simple special casing of query path and naming (see 'wiki' as an example)
-* supports trac ticket searches (e.g. #1234) by omitting the leading '#', which would otherwise be interpreted as a comment by the shell and dropped.
-* supports local domains - if name can be resolved locally it will be used in preference to appending a suffix
+* automatic guessing of top-level domains
+* special casing of query path and naming in a .ini-style config file
+* supports trac ticket searches (e.g. #1234) by omitting the leading '#',
+  which would otherwise be interpreted as a comment by the shell and dropped.
+  (disabled by default - enable on a per-site basis in ~/.urlsearchrc)
+* supports local domains - if name can be resolved locally it will be used in
+  preference to appending a suffix
 
 Examples
 --------
@@ -63,8 +67,20 @@ or creating symlinks is recommended to get a more custom set of search links.
     scripts$ cd ..
     urlsearch$ python3 setup.py install
 
+Config File
+-----------
+
+``urlsearch`` looks for a config file named .urlsearchrc in the current or home directory.
+It may be modified to configure the search behaviour of ``urlsearch`` on a per-site basis,
+as well as configuring some options. The .urlsearchrc file in the source distribution
+(symlinked to urlsearchrc for ease of development) is copied to the ~/.urlsearchrc on
+installation; the default installation instance is fully commented and self-documenting.
+
 CHANGES
 -------
+
+0.3:
+    * support for .urlsearchrc config file
 
 0.2:
     * change to use setuptools
