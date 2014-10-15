@@ -21,14 +21,14 @@ for scriptname in os.listdir('scripts'):
 
 setup(
     name="urlsearch",
-    version="0.3",
+    version="0.3.1",
     description="perform web searches from the command line",
     long_description=open('README.rst').read(),
     author="Ben Bass",
     author_email="benbass@codedstructure.net",
     url="http://bitbucket.org/codedstructure/urlsearch",
     packages=["urlsearch"],
-    data_files=[(os.path.expanduser('~'), (".urlsearchrc", ))],
+    data_files=[(os.path.expanduser('~'), (".urlsearchrc.default", ))],
     scripts=scripts,
     classifiers=[
         "Development Status :: 4 - Beta",

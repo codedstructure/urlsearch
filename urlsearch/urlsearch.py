@@ -4,7 +4,7 @@
 # Ben Bass 2012-2014 @codedstructure
 
 
-__version__ = '0.3'
+__version__ = '0.3.1'
 
 import os
 import sys
@@ -38,7 +38,10 @@ class UrlSearcher(object):
         self.read_config(configfile)
 
     def get_config_file(self):
-        return ['.urlsearchrc', os.path.expanduser('~/.urlsearchrc')]
+        return ['.urlsearchrc',
+                os.path.expanduser('~/.urlsearchrc'),
+                '.urlsearchrc.default',
+                os.path.expanduser('.urlsearchrc.default')]
 
     def read_config(self, configpath):
         parser = RawConfigParser({
@@ -112,9 +115,9 @@ def main():
     search = ' '.join(sys.argv[1:])
 
     # blacklist 'urlsearch'
-    if (os.path.basename(sys.argv[0]) ==
-            os.path.splitext(os.path.basename(__file__))[0]):
-        raise SystemExit("Should be used via named symlinks")
+    if (site == os.path.splitext(os.path.basename(__file__))[0]):
+        raise SystemExit("{} v{} - should be used via named symlinks".format(
+            site, __version__))
 
     urlsearch = UrlSearcher(site, search)
     urlsearch.open()
