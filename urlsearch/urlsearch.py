@@ -115,15 +115,17 @@ USAGE_FORMAT_STR = """
   config file: {}
 """
 
+# Avoid using __file__ due to packaging concerns.
+URLSEARCH_SCRIPT = "urlsearch"
+
 def main():
     # allow multiple symlinks, use their name as site
     site = os.path.basename(sys.argv[0])
     search = ' '.join(sys.argv[1:])
 
     # blacklist 'urlsearch'
-    if (site == os.path.splitext(os.path.basename(__file__))[0]):
+    if site == URLSEARCH_SCRIPT:
         for fn in UrlSearcher.get_config_file():
-            print fn
             if os.path.exists(fn):
                 break
         else:
