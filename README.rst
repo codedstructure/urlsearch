@@ -70,22 +70,19 @@ or creating symlinks is recommended to get a more custom set of search links.
 Config File
 -----------
 
-``urlsearch`` looks for a config file named ``.urlsearchrc`` in the current
-or home directory. It may be modified to configure the search behaviour of
+``urlsearch`` looks for a config file named ``.urlsearchrc`` in the home
+directory. It may be modified to configure the search behaviour of
 ``urlsearch`` on a per-site basis, as well as configuring some options.
 
-Note that ``urlsearch`` creates a default ``.urlsearchrc.default`` config
-file on installation, and does check this, but will prefer to use
-``.urlsearchrc`` if available. This prevents package upgrade installs
+Note that ``urlsearch`` creates a default ``~/.urlsearchrc.default`` config
+file if no config file exists, and does check this, but will prefer to use
+``~/.urlsearchrc`` if available. This prevents package upgrade installs
 overriding any config changes made by the user. Rather than modify this file
 directly, it should first be copied or moved to ``.urlsearchrc``.
 
-The .urlsearchrc.default file in the source distribution (symlinked to
-urlsearchrc.default for ease of development) is copied to the home directory
-on installation; the default installation instance is fully commented. Two
-example entries are shown below - note that this still requires appropriate
-symlinks with the same name as the section heading to be created to launch
-``urlsearch``::
+The default installation instance is fully commented. Two example entries
+are shown below - note that this still requires appropriate symlinks with
+the same name as the section heading to be created to launch ``urlsearch``::
 
     [wiki]
     site = wikipedia.org
@@ -104,6 +101,9 @@ quoting. See the installed config file for more options.
 
 CHANGES
 -------
+
+0.3.2:
+    * create ~/.urlsearchrc.default on use rather than at install-time
 
 0.3.1:
     * installer fixes

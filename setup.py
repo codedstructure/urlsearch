@@ -21,7 +21,7 @@ for scriptname in os.listdir('scripts'):
 
 setup(
     name="urlsearch",
-    version="0.3.1",
+    version="0.3.2",
     description="perform web searches from the command line",
     long_description=open('README.rst').read(),
     author="Ben Bass",
