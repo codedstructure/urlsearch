@@ -1,4 +1,7 @@
-[DEFAULT]
+# The content of URLSEARCHRC_CONFIG will be written to ~/.urlsearchrc.default
+# if neither that file nor ~/.urlsearchrc exist when urlsearch is run
+
+URLSEARCHRC_CONFIG = """[DEFAULT]
 # Default options can be specified here.
 #
 # quote_plus quotes search terms as 'this+is+a+search'
@@ -52,3 +55,4 @@ quote_plus = off
 
 [duckduckgo]
 alias = ddg
+"""

@@ -22,6 +22,17 @@ except ImportError:
     from ConfigParser import RawConfigParser
 
 
+USAGE_FORMAT_STR = """
+{} v{} - should be used via named symlinks
+  config file: {}
+"""
+
+# Avoid using __file__ due to packaging concerns.
+URLSEARCH_SCRIPT = "urlsearch"
+NORMAL_CONFIG_PATH = os.path.expanduser('~/.urlsearchrc')
+DEFAULT_CONFIG_PATH = os.path.expanduser('~/.urlsearchrc.default')
+
+
 class UrlSearcher(object):
     def __init__(self, site, search, configfile=None):
         self.site = site
@@ -39,10 +50,17 @@ class UrlSearcher(object):
 
     @staticmethod
     def get_config_file():
-        return [os.path.expanduser('~/.urlsearchrc'),
-                os.path.join(sys.prefix, '.urlsearchrc'),
-                os.path.expanduser('~/.urlsearchrc.default'),
-                os.path.join(sys.prefix, '.urlsearchrc.default')]
+        for fn in (NORMAL_CONFIG_PATH, DEFAULT_CONFIG_PATH):
+            if os.path.exists(fn):
+                return fn
+        else:
+            from .default_config import URLSEARCHRC_CONFIG
+            with open(DEFAULT_CONFIG_PATH, 'w') as f:
+                f.write(URLSEARCHRC_CONFIG)
+            print("Written default urlsearch config file to {}".format(
+                DEFAULT_CONFIG_PATH))
+
+            return DEFAULT_CONFIG_PATH
 
     def read_config(self, configpath):
         parser = RawConfigParser({
@@ -110,14 +128,6 @@ class UrlSearcher(object):
         return query
 
 
-USAGE_FORMAT_STR = """
-{} v{} - should be used via named symlinks
-  config file: {}
-"""
-
-# Avoid using __file__ due to packaging concerns.
-URLSEARCH_SCRIPT = "urlsearch"
-
 def main():
     # allow multiple symlinks, use their name as site
     site = os.path.basename(sys.argv[0])
@@ -125,12 +135,8 @@ def main():
 
     # blacklist 'urlsearch'
     if site == URLSEARCH_SCRIPT:
-        for fn in UrlSearcher.get_config_file():
-            if os.path.exists(fn):
-                break
-        else:
-            fn = 'none found'
-        raise SystemExit(USAGE_FORMAT_STR.format(site, __version__, fn))
+        raise SystemExit(USAGE_FORMAT_STR.format(
+            site, __version__, UrlSearcher.get_config_file()))
 
     urlsearch = UrlSearcher(site, search)
     urlsearch.open()
