@@ -1,0 +1,4 @@
+include *.txt *.rst
+include .urlsearchrc urlsearchrc
+recursive-include urlsearch *.txt *.py
+recursive-include scripts *
