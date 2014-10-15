@@ -33,15 +33,16 @@ class UrlSearcher(object):
         self.hash_num = False
 
         if configfile is None:
-            configfile = self.get_config_file()
+            configfile = UrlSearcher.get_config_file()
 
         self.read_config(configfile)
 
-    def get_config_file(self):
-        return ['.urlsearchrc',
-                os.path.expanduser('~/.urlsearchrc'),
-                '.urlsearchrc.default',
-                os.path.expanduser('.urlsearchrc.default')]
+    @staticmethod
+    def get_config_file():
+        return [os.path.expanduser('~/.urlsearchrc'),
+                os.path.join(sys.prefix, '.urlsearchrc'),
+                os.path.expanduser('~/.urlsearchrc.default'),
+                os.path.join(sys.prefix, '.urlsearchrc.default')]
 
     def read_config(self, configpath):
         parser = RawConfigParser({
@@ -109,6 +110,11 @@ class UrlSearcher(object):
         return query
 
 
+USAGE_FORMAT_STR = """
+{} v{} - should be used via named symlinks
+  config file: {}
+"""
+
 def main():
     # allow multiple symlinks, use their name as site
     site = os.path.basename(sys.argv[0])
@@ -116,8 +122,13 @@ def main():
 
     # blacklist 'urlsearch'
     if (site == os.path.splitext(os.path.basename(__file__))[0]):
-        raise SystemExit("{} v{} - should be used via named symlinks".format(
-            site, __version__))
+        for fn in UrlSearcher.get_config_file():
+            print fn
+            if os.path.exists(fn):
+                break
+        else:
+            fn = 'none found'
+        raise SystemExit(USAGE_FORMAT_STR.format(site, __version__, fn))
 
     urlsearch = UrlSearcher(site, search)
     urlsearch.open()

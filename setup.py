@@ -28,7 +28,7 @@ setup(
     author_email="benbass@codedstructure.net",
     url="http://bitbucket.org/codedstructure/urlsearch",
     packages=["urlsearch"],
-    data_files=[(os.path.expanduser('~'), (".urlsearchrc.default", ))],
+    data_files=[("", (".urlsearchrc.default", ))],
     scripts=scripts,
     classifiers=[
         "Development Status :: 4 - Beta",
