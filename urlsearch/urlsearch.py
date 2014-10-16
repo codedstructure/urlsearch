@@ -4,7 +4,7 @@
 # Ben Bass 2012-2014 @codedstructure
 
 
-__version__ = '0.3.2'
+__version__ = '0.3.3'
 
 import os
 import sys
@@ -116,7 +116,10 @@ class UrlSearcher(object):
         if '.' not in self.site:
             for suffix in [''] + self.tld_list:
                 try:
-                    if socket.getaddrinfo(self.site + suffix, 'http'):
+                    host_ip = socket.gethostbyname(self.site + suffix)
+                    # See https://icann.org/namecollision - some entries
+                    # return 127.0.53.53 rather than NXDOMAIN...
+                    if host_ip and host_ip != '127.0.53.53':
                         self.site += suffix
                         break
                 except (socket.gaierror, socket.error):

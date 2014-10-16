@@ -102,6 +102,10 @@ quoting. See the installed config file for more options.
 CHANGES
 -------
 
+0.3.3:
+    * prefer reliability to speed; use gethostbyname rather than getaddrinfo
+      and check response against 127.0.53.53 (see icann.org/namecollision)
+
 0.3.2:
     * create ~/.urlsearchrc.default on use rather than at install-time
 
